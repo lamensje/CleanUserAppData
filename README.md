@@ -1,3 +1,5 @@
+Based on https://github.com/Bromeego/Clean-Temp-Files <br/>
+<br/>
 Removes temporairly cache files by popular used browsers and programs. <br/>
 <br/>
 Currently cleans: <br/>
