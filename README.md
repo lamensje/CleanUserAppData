@@ -1,6 +1,6 @@
 Based on https://github.com/Bromeego/Clean-Temp-Files <br/>
 <br/>
-Removes temporairly cache files by popular used browsers and programs. <br/>
+Removes temporairly cache files created by popular used browsers and programs. <br/>
 <br/>
 Currently cleans: <br/>
 All .tmp files older than specified date, default at 7 days <br/>
