@@ -264,11 +264,6 @@ Function Cleanup {
     Write-Host -ForegroundColor Green "Before: $Before"
     Write-Host -ForegroundColor Green "After: $After"
 
-    # Another reminder about running Windows update if needed as it would get lost in all the scrolling text.
-    if ($CleanWU -eq 'Y') { 
-        Write-Host -ForegroundColor Yellow "`nPlease rerun Windows Update to pull down the latest updates. `n"
-    }
-
     # Read some of the output before going away
     ###Start-Sleep -s 15
 
