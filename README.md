@@ -1,4 +1,4 @@
-Removes temporairly cache files by popular used browsers and programs.
+Removes temporairly cache files by popular used browsers and programs. <br/>
 <br/>
 Currently cleans: <br/>
 All .tmp files older than specified date, default at 7 days <br/>
