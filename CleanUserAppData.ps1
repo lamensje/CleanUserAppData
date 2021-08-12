@@ -31,6 +31,10 @@ Function Cleanup {
 
     # Begin!
     Write-Host -ForegroundColor Green "Beginning Script...`n"
+    
+    #Delete .tmp files older than 2 days
+	Write-Host -ForegroundColor Green "Clearing Recycle Bin`n"
+	Clear-RecycleBin -Force -DriveLetter C
 
 	#Delete .tmp files older than 2 days
 	Write-Host -ForegroundColor Green "Removing old .tmp files`n"
