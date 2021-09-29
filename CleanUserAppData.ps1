@@ -237,7 +237,7 @@ Function Cleanup {
     if (Test-Path "C:\Users\$user\AppData\Roaming\Microsoft\Windows\Recent") {
         Write-Host -ForegroundColor Yellow "Deleting files older than " + $RecentItemsDate + " from Recent Items folder`n"
         $RecentItems = "C:\Users\$user\AppData\Roaming\Microsoft\Windows\Recent"
-        $OldFiles = Get-ChildItem -Path "$RecentItems\" -Recurse -File -ErrorAction SilentlyContinue | Where-Object LastWriteTime -LT $RecentItemsDate
+        $OldFiles = Get-ChildItem -Path "$RecentItems\*.lnk" -Recurse -File -ErrorAction SilentlyContinue | Where-Object LastWriteTime -LT $RecentItemsDate | Where-Object Extension -Like ".lnk"
         foreach ($file in $OldFiles) {
             Remove-Item -Path "$RecentItems\$file" -Force -ErrorAction SilentlyContinue -Verbose
         }
