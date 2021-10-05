@@ -3,7 +3,6 @@ Based on https://github.com/Bromeego/Clean-Temp-Files <br/>
 Removes temporairly cache files created by popular used browsers and programs. <br/>
 <br/>
 Currently cleans: <br/>
-All .tmp files older than specified date, default at 7 days <br/>
 Firefox, Chrome, Edge, IE, Chromium, Opera, Yandex <br/>
 Whatsapp, Discord, Slack <br/>
 Dropbox <br/>
