@@ -1,11 +1,11 @@
 # Rename Title Window
-$host.ui.RawUI.WindowTitle = "Clean Browser Temp Files"
+$host.ui.RawUI.WindowTitle = "Clean temp files from AppData"
 
 Function Cleanup {
     # Set Date for Log
     $LogDate = Get-Date -Format "MM-d-yy-HHmm"
 	
-	# Set Deletion Date for Recent Items Folder
+    # Set Deletion Date for Recent Items Folder
     $RecentItemsDate = (Get-Date).AddDays(-7)
 
     # Set Deletion Date for Office File Cache Folder
@@ -20,8 +20,8 @@ Function Cleanup {
     @{ Name = "Size (GB)" ; Expression = { "{0:N1}" -f ( $_.Size / 1gb) } },
     @{ Name = "FreeSpace (GB)" ; Expression = { "{0:N1}" -f ( $_.Freespace / 1gb ) } },
     @{ Name = "PercentFree" ; Expression = { "{0:P1}" -f ( $_.FreeSpace / $_.Size ) } },
-	@{ Name = "AppDataItemsCount" ; Expression = { "{0:N0}" -f ( Get-ChildItem $userprofile\AppData -Recurse -File | Measure-Object | %{$_.Count} ) } }	|
-        Format-Table -AutoSize | Out-String
+    @{ Name = "AppDataItemsCount" ; Expression = { "{0:N0}" -f ( Get-ChildItem $userprofile\AppData -Recurse -File | Measure-Object | %{$_.Count} ) } }	|
+    Format-Table -AutoSize | Out-String
 
     # Define log file location
     $Cleanuplog = "$userprofile\Cleanup$LogDate.log"
@@ -32,22 +32,18 @@ Function Cleanup {
     # Begin!
     Write-Host -ForegroundColor Green "Beginning Script...`n"
 	
-	#Clearing Recycle Bin
-	Write-Host -ForegroundColor Green "Clearing Recycle Bin`n"
-	Clear-RecycleBin -Force -DriveLetter C
-	
     # Clear Firefox Cache
     if (Test-Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles") {
         Write-Host -ForegroundColor Green "Clearing Firefox Cache`n"
             Remove-Item -Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles\*\cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-			Remove-Item -Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles\*\cache2\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	    Remove-Item -Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles\*\cache2\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles\*\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles\*\thumbnails\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles\*\webappsstore.sqlite" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles\*\chromeappsstore.sqlite" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Local\Mozilla\Firefox\Profiles\*\OfflineCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-			Remove-Item -Path "$userprofile\AppData\Roaming\Mozilla\Firefox\Profiles\*\storage\default\*\cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-        Write-Host -ForegroundColor Yellow "Done...`n"
+	    Remove-Item -Path "$userprofile\AppData\Roaming\Mozilla\Firefox\Profiles\*\storage\default\*\cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	    Write-Host -ForegroundColor Yellow "Done...`n"
     }
 	
     # Clear Google Chrome
@@ -72,7 +68,7 @@ Function Cleanup {
                 Remove-Item -Path "$userprofile\AppData\Local\Google\Chrome\User Data\$Account\GPUCache" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
                 Remove-Item -Path "$userprofile\AppData\Local\Google\Chrome\User Data\$Account\JumpListIconsOld" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             }
-        Write-Host -ForegroundColor Yellow "Done...`n"
+	    Write-Host -ForegroundColor Yellow "Done...`n"
     }
 	
 	# Clear Edge
@@ -97,70 +93,70 @@ Function Cleanup {
                 Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Edge\User Data\$Account\GPUCache" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
                 Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Edge\User Data\$Account\JumpListIconsOld" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             }
-        Write-Host -ForegroundColor Yellow "Done...`n"
+	    Write-Host -ForegroundColor Yellow "Done...`n"
     }
 
     # Clear Internet Explorer
-    Write-Host -ForegroundColor Yellow "Clearing Internet Explorer`n"
+    	Write-Host -ForegroundColor Yellow "Clearing Internet Explorer`n"
         Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Windows\Temporary Internet Files\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
         Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Windows\INetCache\* " -Recurse -Force -ErrorAction SilentlyContinue -Verbose
         Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Windows\WebCache\* " -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-    Write-Host -ForegroundColor Yellow "Done...`n"
+	Write-Host -ForegroundColor Yellow "Done...`n"
 	
 	# Clear MS App Cache
     if (Test-Path "$userprofile\AppData\Local\Packages") {
         Write-Host -ForegroundColor Green "Clearing MS App Cache`n"
-			Remove-Item -Path "$userprofile\AppData\Local\Packages\*\AC\INetCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Packages\*\LocalCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-		Write-Host -ForegroundColor Yellow "Done...`n"
+	Remove-Item -Path "$userprofile\AppData\Local\Packages\*\AC\INetCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Packages\*\LocalCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Write-Host -ForegroundColor Yellow "Done...`n"
     }
 	
 	# Clear Web Experience
     if (Test-Path "$userprofile\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience*") {
         Write-Host -ForegroundColor Green "Clearing Web Experience`n"
-            Remove-Item -Path "$userprofile\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience*\LocalState\EBWebView\Default\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience*\LocalState\EBWebView\Default\Service Worker\CacheStorage\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-		Write-Host -ForegroundColor Yellow "Done...`n"
+	Remove-Item -Path "$userprofile\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience*\LocalState\EBWebView\Default\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience*\LocalState\EBWebView\Default\Service Worker\CacheStorage\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Write-Host -ForegroundColor Yellow "Done...`n"
     }
 
     # Clear Chromium
     if (Test-Path "$userprofile\AppData\Local\Chromium") {
         Write-Host -ForegroundColor Yellow "Clearing Chromium Cache`n"
-            Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-			Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\GPUCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Media Cache" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Pepper Data" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Application Cache" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-        Write-Host -ForegroundColor Yellow "Done...`n" 
+	 Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	 Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	 Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\GPUCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	 Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Media Cache" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	 Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Pepper Data" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	 Remove-Item -Path "$userprofile\AppData\Local\Chromium\User Data\Default\Application Cache" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	 Write-Host -ForegroundColor Yellow "Done...`n" 
     }
     
     # Clear Opera
     if (Test-Path "$userprofile\AppData\Local\Opera Software") {
         Write-Host -ForegroundColor Yellow "Clearing Opera Cache`n"
-            Remove-Item -Path "$userprofile\AppData\Local\Opera Software\Opera Stable\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Opera Software\Opera Stable\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
         Write-Host -ForegroundColor Yellow "Done...`n"
     }
 
     # Clear Yandex
     if (Test-Path "$userprofile\AppData\Local\Yandex") {
         Write-Host -ForegroundColor Yellow "Clearing Yandex Cache`n"
-            Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\GPUCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-			Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Media Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Pepper Data\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Application Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-            Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-        Write-Host -ForegroundColor Yellow "Done...`n"
+	Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\GPUCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Media Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Pepper Data\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\User Data\Default\Application Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Remove-Item -Path "$userprofile\AppData\Local\Yandex\YandexBrowser\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	Write-Host -ForegroundColor Yellow "Done...`n"
     }
 
     # Clear User Temp Folders
     Write-Host -ForegroundColor Yellow "Clearing User Temp Folders`n"
-        Remove-Item -Path "$userprofile\AppData\Local\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-        Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Windows\WER\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-        Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Windows\AppCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-        Remove-Item -Path "$userprofile\AppData\Local\CrashDumps\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+    Remove-Item -Path "$userprofile\AppData\Local\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+    Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Windows\WER\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+    Remove-Item -Path "$userprofile\AppData\Local\Microsoft\Windows\AppCache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+    Remove-Item -Path "$userprofile\AppData\Local\CrashDumps\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
     Write-Host -ForegroundColor Yellow "Done...`n"
      
     # Delete Microsoft Teams Previous Version files
@@ -175,7 +171,7 @@ Function Cleanup {
     Write-Host -ForegroundColor Yellow "Clearing Teams Cache`n"
 	if (Test-Path "$userprofile\AppData\Local\Microsoft\Teams\") {
             Remove-Item -Path "$userprofile\AppData\Roaming\Microsoft\Teams\Service Worker\CacheStorage\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-			Remove-Item -Path "$userprofile\AppData\Roaming\Microsoft\Teams\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	    Remove-Item -Path "$userprofile\AppData\Roaming\Microsoft\Teams\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Roaming\Microsoft\Teams\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
         } 
     Write-Host -ForegroundColor Yellow "Done...`n"
@@ -184,7 +180,7 @@ Function Cleanup {
     Write-Host -ForegroundColor Yellow "Clearing Whatsapp Cache`n"
     if (Test-Path "$userprofile\AppData\Roaming\WhatsApp") {
             Remove-Item -Path "$userprofile\AppData\Roaming\WhatsApp\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-			Remove-Item -Path "$userprofile\AppData\Roaming\WhatsApp\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	    Remove-Item -Path "$userprofile\AppData\Roaming\WhatsApp\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Roaming\WhatsApp\Service Worker\CacheStorage\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
     }
     Write-Host -ForegroundColor Yellow "Done...`n"
@@ -193,7 +189,7 @@ Function Cleanup {
     Write-Host -ForegroundColor Yellow "Clearing Discord Cache`n"
     if (Test-Path "$userprofile\AppData\Roaming\Discord") {
             Remove-Item -Path "$userprofile\AppData\Roaming\Discord\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-			Remove-Item -Path "$userprofile\AppData\Roaming\Discord\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	    Remove-Item -Path "$userprofile\AppData\Roaming\Discord\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Roaming\Discord\Service Worker\CacheStorage\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
         }
     Write-Host -ForegroundColor Yellow "Done...`n"
@@ -209,7 +205,7 @@ Function Cleanup {
     Write-Host -ForegroundColor Yellow "Clearing Slack Cache`n"
     if (Test-Path "$userprofile\AppData\Roaming\Slack") {
             Remove-Item -Path "$userprofile\AppData\Roaming\Slack\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
-			Remove-Item -Path "$userprofile\AppData\Roaming\Slack\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
+	    Remove-Item -Path "$userprofile\AppData\Roaming\Slack\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
             Remove-Item -Path "$userprofile\AppData\Roaming\Slack\Service Worker\CacheStorage\*" -Recurse -Force -ErrorAction SilentlyContinue -Verbose
         }
     Write-Host -ForegroundColor Yellow "Done...`n"
@@ -251,19 +247,19 @@ Function Cleanup {
     @{ Name = "Size (GB)" ; Expression = { "{0:N1}" -f ( $_.Size / 1gb) } },
     @{ Name = "FreeSpace (GB)" ; Expression = { "{0:N1}" -f ( $_.Freespace / 1gb ) } },
     @{ Name = "PercentFree" ; Expression = { "{0:P1}" -f ( $_.FreeSpace / $_.Size ) } },
-	@{ Name = "AppDataItemsCount" ; Expression = { "{0:N0}" -f ( Get-ChildItem $userprofile\AppData -Recurse -File | Measure-Object | %{$_.Count} ) } }	|
-        Format-Table -AutoSize | Out-String
+    @{ Name = "AppDataItemsCount" ; Expression = { "{0:N0}" -f ( Get-ChildItem $userprofile\AppData -Recurse -File | Measure-Object | %{$_.Count} ) } }	|
+    Format-Table -AutoSize | Out-String
 
     # Sends some before and after info for ticketing purposes
     Write-Host -ForegroundColor Green "Before: $Before"
     Write-Host -ForegroundColor Green "After: $After"
 
     # Read some of the output before going away
-    ###Start-Sleep -s 15
+    Start-Sleep -s 10
 
     # Completed Successfully!
     # Open Log File
-    ###Invoke-Item $Cleanuplog
+    Invoke-Item $Cleanuplog
 
     # Stop Script
     Stop-Transcript
